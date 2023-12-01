@@ -27,6 +27,8 @@ body {
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.774) 0px 25px 50px -12px;
 }
 
 .screen {
@@ -38,6 +40,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  /* gap: 8px; */
 }
 
 .second,
@@ -47,6 +50,7 @@ body {
 .sixth {
   display: flex;
   flex: 1;
+  /* gap: 8px; */
 }
 
 .solution-screen,
@@ -83,8 +87,14 @@ body {
   cursor: pointer;
 }
 
+.clear {
+  width: 48.5%;
+  flex: initial;
+}
+
 .num {
   background-color: #4d4d4dec;
+  transition: all 0.1s;
 }
 
 .num:hover {
@@ -99,6 +109,7 @@ body {
 .operators {
   background-color: #333333;
   font-size: 20px;
+  transition: all 0.1s;
 }
 
 .operators:hover {
@@ -110,6 +121,11 @@ body {
   background-color: #1a1a1a;
 }
 
-.equal {
-  flex: 2;
+.zero {
+  width: 48.5%;
+  flex: initial;
+}
+
+.pressed {
+  background-color: #1a1a1a;
 }
