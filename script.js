@@ -14,8 +14,9 @@ let operatorController = "";
 let operatorSignController = "";
 let lastInput = "";
 let readyToCalculate = true;
+let prevPressedOperator = "";
 
-// This will return am integer number or a number with a decimal depending on the calculated result
+// This will return an integer number or a number with a decimal depending on the calculated result
 const processedNumber = function (number) {
   return Number.isInteger(number) ? number : number.toFixed(2);
 };
@@ -127,13 +128,13 @@ const udpateDataEquals = function (sign) {
   input = "";
 };
 
-const isInputValid = function () {
+const isInputValid = function (sign) {
   if (input === ".") {
     return false;
   }
 
   // Will check if previously pressed operator is = so that the proram will preoceed to calculate
-  // if (operatorSignController === "=" && !input) return true;
+  // if (sign === "=" && toCalc.length === 1) return false;
 
   // Will check if there is no input
   if (!input) return false;
@@ -152,7 +153,7 @@ const iscannotBeSolve = function (arr) {
 
 const applyActions = function (sign, key) {
   updateSolutionScreen(sign, answer);
-  if (!isInputValid()) {
+  if (!isInputValid(sign)) {
     console.log("hey");
     operatorController = key;
     operatorSignController = sign;
@@ -162,6 +163,8 @@ const applyActions = function (sign, key) {
   updateData(sign);
   clearInput();
   operatorSignController = sign;
+  console.log("To print operator controlller");
+  console.log(operatorController);
   if (toCalc.length <= 1) return;
 
   // If second number is 0 return an error and a if it's a division
@@ -170,7 +173,6 @@ const applyActions = function (sign, key) {
   toCalc.splice(0, toCalc.length, answer);
   console.log("Hey");
   updateBothScreen(answer, sign);
-  operatorController = key;
   operatorSignController = sign;
 };
 
@@ -198,13 +200,13 @@ const operators = {
   },
   equal(sign, key) {
     updateSolutionScreen(sign, answer);
-    if (!isInputValid()) {
+    if (!isInputValid(sign)) {
       console.log("hey");
       operatorController = key;
       operatorSignController = sign;
       return;
     }
-
+    if (isCannotCalculate(key)) return;
     udpateDataEquals(sign);
 
     // if (toCalc.length <= 1) return;
@@ -228,8 +230,9 @@ let setInput = function (inp) {
   }
 };
 
-const cannotCalculate = function (sign) {
-  if (toCalc.length === 2 && operatorSignController === "=") {
+const isCannotCalculate = function (key) {
+  let partialToCalc = toCalc.toSpliced(1, 0, input);
+  if (partialToCalc.length === 2 && operatorController === key) {
     return true;
   }
   return false;
@@ -249,6 +252,7 @@ operator.forEach((item) => {
     let button = e.target.dataset.value; // This will be the method name
     let sign = e.target.textContent.trim(); // This is the operator sign
     operators[`${button}`](sign, button); //Will run a method based on what operator was pressed
+    prevPressedOperator = sign;
   });
 });
 
